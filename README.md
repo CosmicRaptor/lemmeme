@@ -1,5 +1,5 @@
 # lemmeme
-A Discord Bot which fetches memes from lemmy!
+A Discord Bot which fetches memes from lemmy! Made with [discord.py](https://github.com/Rapptz/discord.py)
 
 ## Key features
 - Caches memes every 15 minutes from lemmy into RAM, no disk writes involved.
