@@ -6,7 +6,7 @@ import asyncio
 import logging
 
 
-client = commands.Bot(command_prefix=";", intents=discord.Intents.all())
+client = commands.Bot(command_prefix=";", intents=discord.Intents.default())
 client.help_command = commands.MinimalHelpCommand()
 
     
