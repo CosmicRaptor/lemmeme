@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+    Bot:
+      build: ./
+      restart: always
+      image: lemmeme/bot
+      env_file: ./token.env
+      
