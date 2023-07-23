@@ -18,3 +18,8 @@ Please try to self host the bot if you can!
 ### Adding custom meme upstreams
 Open an issue with the upstream you would like to add. Alternatively, edit [utils/memes_aiohttp_parser.py](utils/memes_aiohttp_parser.py) and add your own meme sources to the list with appropriate formatting.
 Only lemmy communities which do not require a login to view them are supported.
+
+## Roadmap:
+- [ ] Add a simple way for server administrators to add custom meme upstreams.
+- [ ] Fix posts without images appearing in the meme command.
+- [ ] Improve readability of the code.
