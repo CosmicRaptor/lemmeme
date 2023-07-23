@@ -3,14 +3,21 @@ import aiohttp
 
 
 async def storeMemes(sort_algorithm: str):
-    meme_url = ['https://lemmy.ml/feeds/c/memes.xml?sort=', 'https://sopuli.xyz/feeds/c/memes.xml?sort=', 'https://lemmy.world/feeds/c/lemmyshitpost.xml?sort=']
+    meme_url = ['https://lemmy.ml/feeds/c/memes.xml?sort=',
+                'https://sopuli.xyz/feeds/c/memes.xml?sort=',
+                'https://lemmy.world/feeds/c/lemmyshitpost.xml?sort=',
+                'https://lemmy.blahaj.zone/feeds/c/196.xml?sort=']
+    memes = []
     async with aiohttp.ClientSession() as session:
         for item in meme_url:
             async with session.get(item + sort_algorithm) as response:
                 if response.status == 200:
                     html = await response.text()
                     feed = feedparser.parse(html)
-                    return feed.entries
+                    for item1 in feed.entries:
+                        memes.append(item1)
+
+    return memes
 
 
 async def getMemes():
