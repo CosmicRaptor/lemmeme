@@ -36,9 +36,10 @@ async def on_ready():
     
 @client.command()
 @commands.is_owner()
-async def syncLocally(ctx):
-    ctx.bot.tree.copy_global_to(guild=ctx.guild)
-    await ctx.bot.tree.sync(guild=ctx.guild)
+async def syncLocally(ctx, guild_id:int):
+    guild = client.get_guild(guild_id)
+    ctx.bot.tree.copy_global_to(guild=guild)
+    await ctx.bot.tree.sync(guild=guild)
 
 @client.command()
 @commands.is_owner()

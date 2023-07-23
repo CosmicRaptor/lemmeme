@@ -2,98 +2,40 @@ import discord
 from discord.ext import commands,tasks
 from discord import app_commands
 from utils.memes_aiohttp_parser import getMemes
-from collections import deque
+from utils.memebuttons import Buttons, RandomButtons
 import random
 
-class Buttons(discord.ui.View):
-    def __init__(self, user: discord.User):
-        super().__init__()
-        self.user = user
-        self.user_dict = {
-            user: 0
-        }
 
-    @discord.ui.button(label='Previous', style=discord.ButtonStyle.danger)
-    async def previousmemebutton(self, interaction: discord.Interaction, button: discord.ui.Button):
-        if interaction.user == self.user:
-            try:
-                memes = Memes.memes
-                index = self.user_dict[interaction.user]
-                self.user_dict[interaction.user] = index - 1
-                meme = memes[index-1]
-                embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
-                embed.set_image(url=meme["link"])
-                await interaction.response.edit_message(embed=embed)
-            except IndexError:
-                self.user_dict[interaction.user] = 0
-                meme = memes[0]
-                embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
-                embed.set_image(url=meme["link"])
-                await interaction.response.edit_message(embed=embed)
-        else:
-            await interaction.response.send_message("Not your meme, run your own command!", ephemeral=True)
-
-    @discord.ui.button(label='Next', style=discord.ButtonStyle.green)
-    async def nextmemebutton(self, interaction: discord.Interaction, button: discord.ui.Button):
-        if interaction.user == self.user:
-            try:
-                memes = Memes.memes
-                index = self.user_dict[interaction.user]
-                self.user_dict[interaction.user] = index + 1
-                meme = memes[index+1]
-                embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
-                embed.set_image(url=meme["link"])
-                await interaction.response.edit_message(embed=embed)
-            except IndexError:
-                self.user_dict[interaction.user] = -1
-                meme = memes[-1]
-                embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
-                embed.set_image(url=meme["link"])
-                await interaction.response.edit_message(embed=embed)
-        else:
-            await interaction.response.send_message("Not your meme, run your own command!", ephemeral=True)
-        
-
-
-
-class RandomButtons(discord.ui.View):
-    def __init__(self, user: discord.User):
-        super().__init__()
-        self.user = user
-
-    @discord.ui.button(label="New", style=discord.ButtonStyle.blurple)
-    async def randombutton(self, interaction: discord.Interaction, button: discord.ui.Button):
-        if interaction.user == self.user:
-            meme = random.choice(Memes.memes)
-            embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
-            embed.set_image(url=meme["link"])
-            await interaction.response.edit_message(embed=embed, view=RandomButtons())
-        else:
-            await interaction.response.send_message("Not your meme, run your own command!", ephemeral=True)
 
 class Memes(commands.Cog):
-    memes = []
+    memes = {}
     def __init__(self, client: commands.Cog):
         self.client = client
-        self.meme_url = ['https://lemmy.ml/feeds/c/memes.xml?sort=Active' , 'https://lemmy.world/feeds/c/lemmyshitpost.xml?sort=Active']
         self.memesTask.start()
 
     @tasks.loop(minutes=15)
     async def memesTask(self):
-        Memes.memes = await getMemes(self.meme_url)
+        Memes.memes = await getMemes()
 
     @app_commands.command(name='meme')
-    async def meme(self, interaction: discord.Interaction, randomness: bool = None):
+    @app_commands.choices(algorithm=[
+        app_commands.Choice(name="Hot", value="Hot"),
+        app_commands.Choice(name="Active", value="Active"),
+        app_commands.Choice(name="TopDay", value="TopDay"),
+        app_commands.Choice(name="New", value="New"),
+        app_commands.Choice(name="MostComments", value="MostComments")
+    ])
+    async def meme(self, interaction: discord.Interaction, algorithm: app_commands.Choice[str], randomness: bool = None):
         if randomness is None or not randomness :
-            meme = Memes.memes[0]
+            meme = Memes.memes[algorithm.value][0]
             embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
             embed.set_image(url=meme["link"])
-            await interaction.response.send_message(embed=embed, view=Buttons(interaction.user))
+            await interaction.response.send_message(algorithm, embed=embed, view=Buttons(interaction.user, Memes.memes[algorithm.value]))
         else:
-            meme = random.choice(Memes.memes)
+            meme = random.choice(Memes.memes[algorithm.value])
             embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
             embed.set_image(url=meme["link"])
-            await interaction.response.send_message(embed=embed, view=RandomButtons(interaction.user))
+            await interaction.response.send_message(embed=embed, view=RandomButtons(interaction.user, Memes.memes[algorithm.value]))
 
     @commands.command()
     @commands.is_owner()
