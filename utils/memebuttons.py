@@ -1,6 +1,7 @@
 import discord
 import random
 
+
 class Buttons(discord.ui.View):
     def __init__(self, user: discord.User, memes: list):
         super().__init__()
@@ -49,8 +50,6 @@ class Buttons(discord.ui.View):
                 await interaction.response.edit_message(embed=embed)
         else:
             await interaction.response.send_message("Not your meme, run your own command!", ephemeral=True)
-        
-
 
 
 class RandomButtons(discord.ui.View):

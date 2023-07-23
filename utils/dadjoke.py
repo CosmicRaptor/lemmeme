@@ -1,5 +1,6 @@
 import requests
 
+
 class DadJoke():
     def __init__(self, return_type):
         self.api_url = 'https://icanhazdadjoke.com/'
@@ -20,7 +21,7 @@ class DadJoke():
             return response.content.decode()
         else:
             print("Invalid header type")
-    
+
     def search(self, query: str, page=1, limit=20):
         params = {
             "term": query,

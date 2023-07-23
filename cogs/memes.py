@@ -1,14 +1,14 @@
 import discord
-from discord.ext import commands,tasks
+from discord.ext import commands, tasks
 from discord import app_commands
 from utils.memes_aiohttp_parser import getMemes
 from utils.memebuttons import Buttons, RandomButtons
 import random
 
 
-
 class Memes(commands.Cog):
     memes = {}
+
     def __init__(self, client: commands.Cog):
         self.client = client
         self.memesTask.start()
@@ -26,7 +26,7 @@ class Memes(commands.Cog):
         app_commands.Choice(name="MostComments", value="MostComments")
     ])
     async def meme(self, interaction: discord.Interaction, algorithm: app_commands.Choice[str], randomness: bool = None):
-        if randomness is None or not randomness :
+        if randomness is None or not randomness:
             meme = Memes.memes[algorithm.value][0]
             embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
             embed.set_image(url=meme["link"])
@@ -48,7 +48,7 @@ class Memes(commands.Cog):
     async def stopMemeTask(self, ctx):
         self.memesTask.stop()
         await ctx.send("stopped")
-    
+
 
 async def setup(client: commands.Bot):
     await client.add_cog(Memes(client))
