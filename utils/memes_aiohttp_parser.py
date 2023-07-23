@@ -3,7 +3,7 @@ import aiohttp
 
 
 async def storeMemes(sort_algorithm: str):
-    meme_url = ['https://lemmy.ml/feeds/c/memes.xml?sort=', 'https://lemmy.world/feeds/c/lemmyshitpost.xml?sort=']
+    meme_url = ['https://lemmy.ml/feeds/c/memes.xml?sort=', 'https://sopuli.xyz/feeds/c/memes.xml?sort=', 'https://lemmy.world/feeds/c/lemmyshitpost.xml?sort=']
     async with aiohttp.ClientSession() as session:
         for item in meme_url:
             async with session.get(item + sort_algorithm) as response:
