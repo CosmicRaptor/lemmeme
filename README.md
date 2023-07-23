@@ -16,5 +16,5 @@ Please try to self host the bot if you can!
 - Run `docker-compose up -d` to build and run the bot's container.
 
 ### Adding custom meme upstreams
-Open an issue with the upstream you would like to add. Alternatively, edit [cogs/memes.py](cogs/memes.py) and add your own meme sources to the list.
+Open an issue with the upstream you would like to add. Alternatively, edit [utils/memes_aiohttp_parser.py](utils/memes_aiohttp_parser.py) and add your own meme sources to the list with appropriate formatting.
 Only lemmy communities which do not require a login to view them are supported.
