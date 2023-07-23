@@ -30,7 +30,7 @@ class Memes(commands.Cog):
             meme = Memes.memes[algorithm.value][0]
             embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
             embed.set_image(url=meme["link"])
-            await interaction.response.send_message(algorithm, embed=embed, view=Buttons(interaction.user, Memes.memes[algorithm.value]))
+            await interaction.response.send_message(embed=embed, view=Buttons(interaction.user, Memes.memes[algorithm.value]))
         else:
             meme = random.choice(Memes.memes[algorithm.value])
             embed = discord.Embed(title=meme["title"], url=meme["id"], color=discord.Color.random())
