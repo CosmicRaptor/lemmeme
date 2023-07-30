@@ -1,0 +1,8 @@
+{
+    "memeUpstreams": [
+        "https://lemmy.ml/feeds/c/memes.xml?sort=",
+        "https://sopuli.xyz/feeds/c/memes.xml?sort=",
+        "https://lemmy.world/feeds/c/lemmyshitpost.xml?sort=",
+        "https://lemmy.blahaj.zone/feeds/c/196.xml?sort="
+    ]
+}
