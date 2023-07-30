@@ -16,10 +16,11 @@ Please try to self host the bot if you can!
 - Run `docker-compose up -d` to build and run the bot's container.
 
 ### Adding custom meme upstreams
-Open an issue with the upstream you would like to add. Alternatively, edit [utils/memes_aiohttp_parser.py](utils/memes_aiohttp_parser.py) and add your own meme sources to the list with appropriate formatting.
-Only lemmy communities which do not require a login to view them are supported.
+![Screenshot of the RSS feed button for lemmy](assets/lemmy_rssfeed_readme.png)
+- Copy the URL from the RSS feed button(the little button that looks like a WiFi icon). Example: `https://programming.dev/feeds/c/programmer_humor.xml?sort=Active`
+- Remove the sort algorithm from the URL, and paste it into the [config.json](/config.json). For example in this case you will paste `https://programming.dev/feeds/c/programmer_humor.xml?sort=`
 
 ## Roadmap:
-- [ ] Add a simple way for server administrators to add custom meme upstreams.
+- [x] Add a simple way for bot administrators to add custom meme upstreams.
 - [ ] Fix posts without images appearing in the meme command.
 - [ ] Improve readability of the code.
