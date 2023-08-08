@@ -1,6 +1,7 @@
 import feedparser
 import aiohttp
 from utils.read_config import getConfig
+from utils.link_check import linkCheck
 
 
 async def storeMemes(sort_algorithm: str):
@@ -13,11 +14,8 @@ async def storeMemes(sort_algorithm: str):
                     html = await response.text()
                     feed = feedparser.parse(html)
                     for item1 in feed.entries:
-                        try:
-                            item1['link']
+                        if linkCheck(item1['link']):
                             memes.append(item1)
-                        except KeyError:
-                            pass
 
     return memes
 
