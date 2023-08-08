@@ -13,7 +13,11 @@ async def storeMemes(sort_algorithm: str):
                     html = await response.text()
                     feed = feedparser.parse(html)
                     for item1 in feed.entries:
-                        memes.append(item1)
+                        try:
+                            item1['link']
+                            memes.append(item1)
+                        except KeyError:
+                            pass
 
     return memes
 
