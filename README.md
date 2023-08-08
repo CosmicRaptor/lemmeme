@@ -20,5 +20,5 @@ A Discord Bot which fetches memes from lemmy! Made with [discord.py](https://git
 
 ## Roadmap:
 - [x] Add a simple way for bot administrators to add custom meme upstreams.
-- [ ] Fix posts without images appearing in the meme command.
+- [x] Fix posts without images appearing in the meme command.
 - [ ] Improve readability of the code.
